@@ -1,0 +1,5 @@
+DROP TABLE IF EXISTS promos;
+DROP TABLE IF EXISTS stores;
+DROP TABLE IF EXISTS operational_time;
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS "sessions";
