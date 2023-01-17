@@ -2,7 +2,6 @@ package db
 
 import (
 	"context"
-	"database/sql"
 	"github/promo-news-app/util"
 	"testing"
 	"time"
@@ -15,7 +14,7 @@ func createRandomOperationalTime(t *testing.T) OperationalTime {
 		OpeningTime:     util.RandomAmHours(),
 		ClosingTime:     util.RandomPmHours(),
 		OperationalDays: util.RandomDay(),
-		OffDays:         sql.NullString{String: "12:00-13:00", Valid: true},
+		OffDays:         "12:00-13:00",
 		IsActive:        true,
 	}
 

@@ -7,7 +7,6 @@ package db
 
 import (
 	"context"
-	"database/sql"
 )
 
 const createOperationalTime = `-- name: CreateOperationalTime :one
@@ -23,11 +22,11 @@ INSERT INTO operational_time (
 `
 
 type CreateOperationalTimeParams struct {
-	OpeningTime     string         `json:"opening_time"`
-	ClosingTime     string         `json:"closing_time"`
-	OperationalDays string         `json:"operational_days"`
-	OffDays         sql.NullString `json:"off_days"`
-	IsActive        bool           `json:"is_active"`
+	OpeningTime     string `json:"opening_time"`
+	ClosingTime     string `json:"closing_time"`
+	OperationalDays string `json:"operational_days"`
+	OffDays         string `json:"off_days"`
+	IsActive        bool   `json:"is_active"`
 }
 
 func (q *Queries) CreateOperationalTime(ctx context.Context, arg CreateOperationalTimeParams) (OperationalTime, error) {
@@ -89,7 +88,7 @@ func (q *Queries) ListOperationalTime(ctx context.Context, arg ListOperationalTi
 		return nil, err
 	}
 	defer rows.Close()
-	var items []OperationalTime
+	items := []OperationalTime{}
 	for rows.Next() {
 		var i OperationalTime
 		if err := rows.Scan(
@@ -154,12 +153,12 @@ RETURNING id, opening_time, closing_time, operational_days, off_days, is_active,
 `
 
 type UpdateOperationalTimeParams struct {
-	ID              int64          `json:"id"`
-	OpeningTime     string         `json:"opening_time"`
-	ClosingTime     string         `json:"closing_time"`
-	OperationalDays string         `json:"operational_days"`
-	OffDays         sql.NullString `json:"off_days"`
-	IsActive        bool           `json:"is_active"`
+	ID              int64  `json:"id"`
+	OpeningTime     string `json:"opening_time"`
+	ClosingTime     string `json:"closing_time"`
+	OperationalDays string `json:"operational_days"`
+	OffDays         string `json:"off_days"`
+	IsActive        bool   `json:"is_active"`
 }
 
 func (q *Queries) UpdateOperationalTime(ctx context.Context, arg UpdateOperationalTimeParams) (OperationalTime, error) {

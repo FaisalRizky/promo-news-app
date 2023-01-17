@@ -5,20 +5,19 @@
 package db
 
 import (
-	"database/sql"
 	"time"
 
 	"github.com/google/uuid"
 )
 
 type OperationalTime struct {
-	ID              int64          `json:"id"`
-	OpeningTime     string         `json:"opening_time"`
-	ClosingTime     string         `json:"closing_time"`
-	OperationalDays string         `json:"operational_days"`
-	OffDays         sql.NullString `json:"off_days"`
-	IsActive        bool           `json:"is_active"`
-	CreatedAt       time.Time      `json:"created_at"`
+	ID              int64     `json:"id"`
+	OpeningTime     string    `json:"opening_time"`
+	ClosingTime     string    `json:"closing_time"`
+	OperationalDays string    `json:"operational_days"`
+	OffDays         string    `json:"off_days"`
+	IsActive        bool      `json:"is_active"`
+	CreatedAt       time.Time `json:"created_at"`
 }
 
 type Promo struct {
@@ -59,17 +58,17 @@ type Store struct {
 }
 
 type User struct {
-	ID                int64          `json:"id"`
-	Email             string         `json:"email"`
-	Name              string         `json:"name"`
-	Username          string         `json:"username"`
-	Password          string         `json:"password"`
-	PasswordChangedAt time.Time      `json:"password_changed_at"`
-	PhoneNumber       int64          `json:"phone_number"`
-	DeviceToken       sql.NullString `json:"device_token"`
-	Lang              sql.NullString `json:"lang"`
-	Avatar            sql.NullString `json:"avatar"`
-	UserLevel         sql.NullString `json:"user_level"`
-	IsActive          bool           `json:"is_active"`
-	CreatedAt         time.Time      `json:"created_at"`
+	ID                int64     `json:"id"`
+	Email             string    `json:"email"`
+	Name              string    `json:"name"`
+	Username          string    `json:"username"`
+	Password          string    `json:"password"`
+	PasswordChangedAt time.Time `json:"password_changed_at"`
+	PhoneNumber       int64     `json:"phone_number"`
+	DeviceToken       string    `json:"device_token"`
+	Lang              string    `json:"lang"`
+	Avatar            string    `json:"avatar"`
+	UserLevel         string    `json:"user_level"`
+	IsActive          bool      `json:"is_active"`
+	CreatedAt         time.Time `json:"created_at"`
 }

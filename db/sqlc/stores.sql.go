@@ -93,7 +93,7 @@ func (q *Queries) ListStores(ctx context.Context, arg ListStoresParams) ([]Store
 		return nil, err
 	}
 	defer rows.Close()
-	var items []Store
+	items := []Store{}
 	for rows.Next() {
 		var i Store
 		if err := rows.Scan(

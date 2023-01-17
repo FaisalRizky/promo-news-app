@@ -7,7 +7,6 @@ package db
 
 import (
 	"context"
-	"database/sql"
 	"time"
 )
 
@@ -30,17 +29,17 @@ INSERT INTO users (
 `
 
 type CreateUsersParams struct {
-	Email             string         `json:"email"`
-	Name              string         `json:"name"`
-	Username          string         `json:"username"`
-	Password          string         `json:"password"`
-	PasswordChangedAt time.Time      `json:"password_changed_at"`
-	PhoneNumber       int64          `json:"phone_number"`
-	DeviceToken       sql.NullString `json:"device_token"`
-	Lang              sql.NullString `json:"lang"`
-	Avatar            sql.NullString `json:"avatar"`
-	UserLevel         sql.NullString `json:"user_level"`
-	IsActive          bool           `json:"is_active"`
+	Email             string    `json:"email"`
+	Name              string    `json:"name"`
+	Username          string    `json:"username"`
+	Password          string    `json:"password"`
+	PasswordChangedAt time.Time `json:"password_changed_at"`
+	PhoneNumber       int64     `json:"phone_number"`
+	DeviceToken       string    `json:"device_token"`
+	Lang              string    `json:"lang"`
+	Avatar            string    `json:"avatar"`
+	UserLevel         string    `json:"user_level"`
+	IsActive          bool      `json:"is_active"`
 }
 
 func (q *Queries) CreateUsers(ctx context.Context, arg CreateUsersParams) (User, error) {
@@ -57,6 +56,32 @@ func (q *Queries) CreateUsers(ctx context.Context, arg CreateUsersParams) (User,
 		arg.UserLevel,
 		arg.IsActive,
 	)
+	var i User
+	err := row.Scan(
+		&i.ID,
+		&i.Email,
+		&i.Name,
+		&i.Username,
+		&i.Password,
+		&i.PasswordChangedAt,
+		&i.PhoneNumber,
+		&i.DeviceToken,
+		&i.Lang,
+		&i.Avatar,
+		&i.UserLevel,
+		&i.IsActive,
+		&i.CreatedAt,
+	)
+	return i, err
+}
+
+const getUser = `-- name: GetUser :one
+SELECT id, email, name, username, password, password_changed_at, phone_number, device_token, lang, avatar, user_level, is_active, created_at FROM users
+WHERE username = $1 LIMIT 1
+`
+
+func (q *Queries) GetUser(ctx context.Context, username string) (User, error) {
+	row := q.db.QueryRowContext(ctx, getUser, username)
 	var i User
 	err := row.Scan(
 		&i.ID,
@@ -120,7 +145,7 @@ func (q *Queries) ListUsers(ctx context.Context, arg ListUsersParams) ([]User, e
 		return nil, err
 	}
 	defer rows.Close()
-	var items []User
+	items := []User{}
 	for rows.Next() {
 		var i User
 		if err := rows.Scan(
@@ -187,36 +212,39 @@ func (q *Queries) ToogleActiveUsers(ctx context.Context, arg ToogleActiveUsersPa
 const updateUsers = `-- name: UpdateUsers :one
 UPDATE users
 SET  
-  email = $1,
-  name= $2,
-  username= $3,
-  password= $4,
-  password_changed_at= $5,
-  phone_number= $6,
-  device_token= $7,
-  lang= $8,
-  avatar= $9,
-  user_level= $10,
-  is_active= $11
+  email = $2,
+  name= $3,
+  username= $4,
+  password= $5,
+  password_changed_at= $6,
+  phone_number= $7,
+  device_token= $8,
+  lang= $9,
+  avatar= $10,
+  user_level= $11,
+  is_active= $12
+WHERE id = $1
 RETURNING id, email, name, username, password, password_changed_at, phone_number, device_token, lang, avatar, user_level, is_active, created_at
 `
 
 type UpdateUsersParams struct {
-	Email             string         `json:"email"`
-	Name              string         `json:"name"`
-	Username          string         `json:"username"`
-	Password          string         `json:"password"`
-	PasswordChangedAt time.Time      `json:"password_changed_at"`
-	PhoneNumber       int64          `json:"phone_number"`
-	DeviceToken       sql.NullString `json:"device_token"`
-	Lang              sql.NullString `json:"lang"`
-	Avatar            sql.NullString `json:"avatar"`
-	UserLevel         sql.NullString `json:"user_level"`
-	IsActive          bool           `json:"is_active"`
+	ID                int64     `json:"id"`
+	Email             string    `json:"email"`
+	Name              string    `json:"name"`
+	Username          string    `json:"username"`
+	Password          string    `json:"password"`
+	PasswordChangedAt time.Time `json:"password_changed_at"`
+	PhoneNumber       int64     `json:"phone_number"`
+	DeviceToken       string    `json:"device_token"`
+	Lang              string    `json:"lang"`
+	Avatar            string    `json:"avatar"`
+	UserLevel         string    `json:"user_level"`
+	IsActive          bool      `json:"is_active"`
 }
 
 func (q *Queries) UpdateUsers(ctx context.Context, arg UpdateUsersParams) (User, error) {
 	row := q.db.QueryRowContext(ctx, updateUsers,
+		arg.ID,
 		arg.Email,
 		arg.Name,
 		arg.Username,

@@ -19,6 +19,10 @@ INSERT INTO users (
 SELECT * FROM users
 WHERE id = $1 LIMIT 1;
 
+-- name: GetUser :one
+SELECT * FROM users
+WHERE username = $1 LIMIT 1;
+
 -- name: ListUsers :many
 SELECT * FROM users
 ORDER BY id
@@ -28,17 +32,18 @@ OFFSET $2;
 -- name: UpdateUsers :one
 UPDATE users
 SET  
-  email = $1,
-  name= $2,
-  username= $3,
-  password= $4,
-  password_changed_at= $5,
-  phone_number= $6,
-  device_token= $7,
-  lang= $8,
-  avatar= $9,
-  user_level= $10,
-  is_active= $11
+  email = $2,
+  name= $3,
+  username= $4,
+  password= $5,
+  password_changed_at= $6,
+  phone_number= $7,
+  device_token= $8,
+  lang= $9,
+  avatar= $10,
+  user_level= $11,
+  is_active= $12
+WHERE id = $1
 RETURNING *;
 
 -- name: ToogleActiveUsers :one

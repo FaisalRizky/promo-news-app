@@ -13,8 +13,8 @@ type DBStore struct {
 }
 
 // NewDBStore creates a new DBStore
-func NewStore(db *sql.DB) *DBStore {
-	return &DBStore{
+func NewStore(db *sql.DB) DBStore {
+	return DBStore{
 		db:      db,
 		Queries: New(db),
 	}

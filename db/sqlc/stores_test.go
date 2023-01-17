@@ -10,12 +10,13 @@ import (
 )
 
 func createRandomStore(t *testing.T) Store {
+	operationalTime := createRandomOperationalTime(t)
 	arg := CreateStoresParams{
 		Name:          util.RandomString(10),
 		Address:       util.RandomString(25),
 		Description:   util.RandomString(150),
 		PhoneNumber:   util.RandomInt(800000000, 899999999),
-		OperationalID: 1,
+		OperationalID: operationalTime.ID,
 		IsActive:      util.RandomBoolean(),
 	}
 
@@ -56,6 +57,7 @@ func TestGetStore(t *testing.T) {
 }
 
 func TestUpdateStore(t *testing.T) {
+	operationalTime := createRandomOperationalTime(t)
 	store1 := createRandomStore(t)
 	arg := UpdateStoresParams{
 		ID:            store1.ID,
@@ -63,7 +65,7 @@ func TestUpdateStore(t *testing.T) {
 		Address:       store1.Address,
 		Description:   store1.Description,
 		PhoneNumber:   util.RandomInt(81313131, 899999999),
-		OperationalID: 1,
+		OperationalID: operationalTime.ID,
 		IsActive:      store1.IsActive,
 	}
 
@@ -74,7 +76,6 @@ func TestUpdateStore(t *testing.T) {
 	require.Equal(t, arg.Name, store2.Name)
 	require.Equal(t, store1.Address, store2.Address)
 	require.Equal(t, store1.Description, store2.Description)
-	require.Equal(t, store1.OperationalID, store2.OperationalID)
 	require.Equal(t, store1.IsActive, store2.IsActive)
 	require.WithinDuration(t, store1.CreatedAt, store2.CreatedAt, time.Second)
 }

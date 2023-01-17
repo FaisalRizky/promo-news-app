@@ -2,7 +2,6 @@ package db
 
 import (
 	"context"
-	"database/sql"
 	"github/promo-news-app/util"
 	"testing"
 	"time"
@@ -18,10 +17,10 @@ func createRandomUser(t *testing.T) User {
 		Password:          util.RandomString(100),
 		PasswordChangedAt: util.RandomTime(),
 		PhoneNumber:       util.RandomInt(800000000, 899999999),
-		DeviceToken:       sql.NullString{String: util.RandomString(100), Valid: true},
-		Lang:              sql.NullString{String: "id", Valid: true},
-		Avatar:            sql.NullString{String: "null", Valid: true},
-		UserLevel:         sql.NullString{String: "9", Valid: true},
+		DeviceToken:       util.RandomString(100),
+		Lang:              "id",
+		Avatar:            "null",
+		UserLevel:         "9",
 		IsActive:          util.RandomBoolean(),
 	}
 
@@ -92,10 +91,10 @@ func TestUpdateUser(t *testing.T) {
 		Password:          util.RandomString(100),
 		PasswordChangedAt: util.RandomTime(),
 		PhoneNumber:       util.RandomInt(800000000, 899999999),
-		DeviceToken:       sql.NullString{String: util.RandomString(100), Valid: true},
-		Lang:              sql.NullString{String: "id", Valid: true},
-		Avatar:            sql.NullString{String: "null", Valid: true},
-		UserLevel:         sql.NullString{String: "9", Valid: true},
+		DeviceToken:       util.RandomString(100),
+		Lang:              "id",
+		Avatar:            "null",
+		UserLevel:         "9",
 		IsActive:          util.RandomBoolean(),
 	}
 

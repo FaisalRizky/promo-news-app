@@ -108,7 +108,7 @@ func (q *Queries) ListPromos(ctx context.Context, arg ListPromosParams) ([]Promo
 		return nil, err
 	}
 	defer rows.Close()
-	var items []Promo
+	items := []Promo{}
 	for rows.Next() {
 		var i Promo
 		if err := rows.Scan(
