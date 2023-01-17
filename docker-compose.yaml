@@ -5,7 +5,7 @@ services:
         environment:
           POSTGRES_USER: root
           POSTGRES_PASSWORD: secret
-          POSTGRES_DB: promo-news-apps
+          POSTGRES_DB: promo_news_apps
         ports:
           - 5432:5432
   api:
@@ -15,7 +15,7 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - DB_SOURCE=postgresql://root:secret@postgres:5432/promo-news-apps?sslmode=disable
+      - DB_SOURCE=postgresql://root:secret@postgres:5432/promo_news_apps?sslmode=disable
     depends_on:
       - postgres
     entrypoint:
