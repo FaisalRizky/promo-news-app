@@ -8,7 +8,7 @@ dropdb:
 	docker exec -it postgres12 dropdb promo_news_apps
 
 migrateup:
-	migrate -path db/migration -database "postgresql://root:secret@localhost:5432/promo_news_apps?sslmode=disable" -verbose up
+	migrate -path db/migration -database "postgresql://root:XiTvYhxjeNH9xSi8Bmg2@promo-news-apps.cdvqupkkttde.ap-southeast-1.rds.amazonaws.com:5432/promo_news_apps" -verbose up
 
 migratedown:
 	migrate -path db/migration -database "postgresql://root:secret@localhost:5432/promo_news_apps?sslmode=disable" -verbose down
